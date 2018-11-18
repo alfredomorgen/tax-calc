@@ -1,0 +1,29 @@
+{
+  "name": "tax-calc",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Alfredo Morgen <alfredo7romero@gmail.com>",
+  "homepage": "http://alfredomorgen.github.io/tax-calc",
+  "license": "MIT",
+  "dependencies": {
+    "prop-types": "^15.6.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-transform-destructuring": "^7.1.3",
+    "@babel/preset-react": "^7.0.0",
+    "@types/react": "^16.7.6",
+    "babel-loader": "^8.0.4",
+    "gh-pages": "^2.0.1",
+    "prettier": "^1.15.2",
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "deploy": "gh-pages -d dist"
+  }
+}
