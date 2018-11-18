@@ -12,6 +12,7 @@ export default class InputNumber extends React.Component {
 
   static defaultProps = {
     readOnly: false,
+    value: 0,
   };
 
   render() {
