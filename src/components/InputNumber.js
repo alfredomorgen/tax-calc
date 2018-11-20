@@ -3,6 +3,7 @@ import React from 'react';
 
 export default class InputNumber extends React.Component {
   static propTypes = {
+    isInline: PropTypes.bool,
     label: PropTypes.string,
     min: PropTypes.number,
     onChange: PropTypes.func,
@@ -11,14 +12,15 @@ export default class InputNumber extends React.Component {
   };
 
   static defaultProps = {
+    isInline: false,
     readOnly: false,
     value: 0,
   };
 
-  render() {
+  renderContent() {
     const { label, min, onChange, readOnly, value } = this.props;
     return (
-      <span>
+      <React.Fragment>
         {label && <label>{label}</label>}
         <input
           type={'number'}
@@ -27,7 +29,16 @@ export default class InputNumber extends React.Component {
           readOnly={readOnly}
           value={value}
         />
-      </span>
+      </React.Fragment>
     );
+  }
+
+  render() {
+    const { isInline } = this.props;
+    if (isInline) {
+      return <span>{this.renderContent()}</span>;
+    } else {
+      return <div>{this.renderContent()}</div>;
+    }
   }
 }
