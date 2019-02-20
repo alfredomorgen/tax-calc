@@ -29,8 +29,10 @@ export default class InputTextNumber extends React.Component {
         <input
           type={'text'}
           disabled={disabled}
+          inputMode={'numeric'}
           min={min}
           onChange={onChange}
+          pattern={'[0-9]*'}
           readOnly={readOnly}
           value={this.getFormattedValue()}
         />
