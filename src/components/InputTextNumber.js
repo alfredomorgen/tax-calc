@@ -3,44 +3,38 @@ import React from 'react';
 
 export default class InputTextNumber extends React.Component {
   static propTypes = {
-    isInline: PropTypes.bool,
+    disabled: PropTypes.bool,
     label: PropTypes.string,
     min: PropTypes.number,
     onChange: PropTypes.func,
     readOnly: PropTypes.bool,
-    value: PropTypes.number,
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   };
 
   static defaultProps = {
-    isInline: false,
+    disabled: false,
     readOnly: false,
-    value: 0,
   };
 
-  renderContent() {
-    const { label, min, onChange, readOnly, value } = this.props;
-    const formattedValue = Number(value).toLocaleString();
+  getFormattedValue = () => {
+    const { value } = this.props;
+    return value && Number(value).toLocaleString();
+  }
 
+  render() {
+    const { disabled, label, min, onChange, readOnly } = this.props;
     return (
       <React.Fragment>
         {label && <label>{label}</label>}
         <input
           type={'text'}
+          disabled={disabled}
           min={min}
           onChange={onChange}
           readOnly={readOnly}
-          value={formattedValue}
+          value={this.getFormattedValue()}
         />
       </React.Fragment>
     );
-  }
-
-  render() {
-    const { isInline } = this.props;
-    if (isInline) {
-      return <span>{this.renderContent()}</span>;
-    } else {
-      return <div>{this.renderContent()}</div>;
-    }
   }
 }

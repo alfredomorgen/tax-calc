@@ -1,48 +1,78 @@
 import React from 'react';
-import { getTotalTaxPercentage } from '../utils/taxUtils';
+
+import { getTaxPercentageList, getTotalTaxPercentage } from '../utils/TaxUtils';
+import { getGrandTotal } from '../utils/TotalUtils';
 import InputTextNumber from './InputTextNumber';
 import './MainPage.css';
 
 export default class MainPage extends React.Component {
   state = {
-    total: 0,
-    serviceCharge: 0,
-    tax: 0,
+    subtotal: '',
+    serviceCharge: '',
+    tax: '',
   };
 
   handleChange = stateKey => e => {
     const value = e.target.value;
     const numberValue = value.replace(/[\D]/g, '');
-    this.setState({ [stateKey]: Number(numberValue) });
+    this.setState({ [stateKey]: numberValue });
+  };
+
+  getFormattedPercentageLabel = (label, taxPercentage) => {
+    if (Number(taxPercentage) > 0) {
+      return `${label} (${taxPercentage}%)`;
+    }
+    return label;
   };
 
   render() {
-    const taxPercentage = getTotalTaxPercentage(this.state.total, this.state.serviceCharge, this.state.tax);
+    const { subtotal, serviceCharge, tax } = this.state;
+    const taxPercentageList = getTaxPercentageList(
+      subtotal,
+      serviceCharge,
+      tax
+    );
+
     return (
       <div className={'MainPage'}>
         <InputTextNumber
-          label={'Total Value'}
+          label={'Subtotal'}
           min={0}
-          onChange={this.handleChange('total')}
-          value={this.state.total}
+          onChange={this.handleChange('subtotal')}
+          value={this.state.subtotal}
         />
         <InputTextNumber
-          label={'Service Charge'}
+          label={this.getFormattedPercentageLabel(
+            'Service Charge',
+            taxPercentageList[0]
+          )}
           min={0}
           onChange={this.handleChange('serviceCharge')}
           value={this.state.serviceCharge}
         />
         <InputTextNumber
-          label={'Tax Value'}
+          label={this.getFormattedPercentageLabel(
+            'Tax Value',
+            taxPercentageList[1]
+          )}
           min={0}
           onChange={this.handleChange('tax')}
           value={this.state.tax}
         />
+
         <InputTextNumber
-          label={'Total Tax Percentage'}
+          disabled
+          label={'Grand Total (just for checking)'}
           min={0}
           readOnly
-          value={taxPercentage}
+          value={getGrandTotal(serviceCharge, tax, subtotal)}
+        />
+        <InputTextNumber
+          disabled
+          label={'Total Tax Percentage (result)'}
+          min={0}
+          readOnly
+          value={getTotalTaxPercentage(taxPercentageList)}
         />
       </div>
     );

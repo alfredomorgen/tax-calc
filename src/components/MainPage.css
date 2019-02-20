@@ -1,17 +1,5 @@
-/* Desktop */
-@media (min-width: 450px) {
-  .MainPage {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    max-width: 70%;
-  }
-}
-
-/* Mobile */
-@media (max-width: 450px) {
-  .MainPage > div {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    padding-bottom: 16px;
-  }
+.MainPage {
+  display: grid;
+  grid-row-gap: 12px;
+  grid-template-columns: 1fr 2fr;
 }

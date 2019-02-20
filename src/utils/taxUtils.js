@@ -1,16 +1,26 @@
 export function getTaxPercentage(totalValue, taxValue) {
-  if (totalValue <= 0 && taxValue <= 0) return 0;
-  return Number((taxValue * 100 / totalValue).toPrecision(2));
+  const parsedTotalValue = Number(totalValue);
+  const parsedTaxValue = Number(taxValue);
+
+  if (parsedTotalValue <= 0 && parsedTaxValue <= 0) return 0;
+  return Number((parsedTaxValue * 100 / parsedTotalValue).toPrecision(2));
 }
 
-export function getTotalTaxPercentage(totalValue, ...taxValues) {
-  let totalTaxPercentage = 0;
-  let currentTotalValue = totalValue;
+export function getTaxPercentageList(totalValue, ...taxValues) {
+  const parsedTotalValue = Number(totalValue);
+
+  const taxPercentageList = [];
+  let currentTotalValue = parsedTotalValue;
 
   taxValues.forEach(taxValue => {
-    totalTaxPercentage += getTaxPercentage(currentTotalValue, taxValue);
-    currentTotalValue = totalValue + taxValue;
+    const parsedTaxValue = Number(taxValue);
+    taxPercentageList.push(getTaxPercentage(currentTotalValue, parsedTaxValue));
+    currentTotalValue += parsedTaxValue;
   });
 
-  return totalTaxPercentage;
+  return taxPercentageList;
+}
+
+export function getTotalTaxPercentage(taxPercentageList) {
+  return taxPercentageList.reduce((totalTaxPercentage, taxPercentage) => totalTaxPercentage + taxPercentage, 0);
 }
