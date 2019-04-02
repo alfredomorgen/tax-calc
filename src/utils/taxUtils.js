@@ -3,7 +3,7 @@ export function getTaxPercentage(totalValue, taxValue) {
   const parsedTaxValue = Number(taxValue);
 
   if (parsedTotalValue <= 0 && parsedTaxValue <= 0) return 0;
-  return Number((parsedTaxValue * 100 / parsedTotalValue).toPrecision(2));
+  return Number(((parsedTaxValue * 100) / parsedTotalValue).toPrecision(2));
 }
 
 export function getTaxPercentageList(totalValue, ...taxValues) {
@@ -22,5 +22,9 @@ export function getTaxPercentageList(totalValue, ...taxValues) {
 }
 
 export function getTotalTaxPercentage(taxPercentageList) {
-  return taxPercentageList.reduce((totalTaxPercentage, taxPercentage) => totalTaxPercentage + taxPercentage, 0);
+  const result = taxPercentageList.reduce(
+    (total, taxPercentage) => total * (1 + taxPercentage / 100),
+    1
+  );
+  return (result - 1) * 100;
 }
